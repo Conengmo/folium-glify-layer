@@ -95,6 +95,7 @@ class GlifyLayer(JSCSSMixin, Layer):
     _template = Template(u"""
         {% macro script(this, kwargs) %}
 
+        var {{ this.get_name() }} = (function() {
             var map = {{ this._parent.get_name() }};
            
             var options = {
@@ -201,9 +202,10 @@ class GlifyLayer(JSCSSMixin, Layer):
                 };
 
             {%- endif %}
-            
-            
-            L.glify.layer(options).addTo({{ this._parent.get_name() }});          
+
+            return L.glify.layer(options);
+        
+        })();
 
         {% endmacro %}
         """)
